@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"grepRPC"
+	"Distributed-Grep/grepRPC"
 	"log"
 	"net/rpc"
 	"os"
