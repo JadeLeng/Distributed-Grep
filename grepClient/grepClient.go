@@ -28,11 +28,11 @@ type Args struct {
 // usage:  ./progam serverlistpath pattern file
 func main() {
 	//read command argument
-	if len(os.Args) != 3 {
+	if len(os.Args) != 4 {
 		log.Fatal(">Invalid input: ./grepClient <serverlistpath> <pattern> <filepath>")
 	}
 	// pattern filepath
-	grepArg := Args{os.Args[2], os.Args[3]}
+	grepArg := os.Args[2]
 	serverListPath := os.Args[1]
 	//fetch server list
 	serverList, err := readServer(serverListPath)
@@ -81,7 +81,7 @@ func readServer(path string) ([]SeverInfo, error) {
 //A client wishing to use the service establishes a connection
 //and then invokes NewClient on the connection.
 
-func distributedGrep(server SeverInfo, grepArg Args, wg *sync.WaitGroup) {
+func distributedGrep(server SeverInfo, grepArg string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	//log.Println(">Server address:", server.addr)
 	client, err := rpc.DialHTTP("tcp", server.addr)
@@ -89,11 +89,11 @@ func distributedGrep(server SeverInfo, grepArg Args, wg *sync.WaitGroup) {
 		log.Fatal(">dialing error: ", err)
 	}
 
-	args2 := &grepRPC.GrepArgs{grepArg.pattern, grepArg.filepath}
+	args2 := &grepRPC.GrepArgs{grepArg, server.filepath}
 	var reply string
 	err = client.Call("GrepRes.GetGrep", args2, &reply)
 	if err != nil {
 		log.Fatal("grep error:", err)
 	}
-	fmt.Printf(">Results from %s: %s*%s=%s", server.addr, args2.Pattern, args2.File, reply)
+	fmt.Printf(">Results from %s: %s", server.addr, reply)
 }
