@@ -1,0 +1,5 @@
+172.22.154.132:1230 /home/yifeili3/machine.1.log
+172.22.154.133:1230 /home/yifeili3/machine.2.log
+172.22.154.134:1230 /home/yifeili3/machine.3.log
+172.22.154.135:1230 /home/yifeili3/machine.4.log
+172.22.154.136:1230 /home/yifeili3/machine.5.log
